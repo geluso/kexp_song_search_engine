@@ -15,18 +15,23 @@ $command = "python proximity.py";
 
 if ($song) {
   $run = true;
+  $song = urldecode($song);
   $command .= " --song \"$song\"";
 }
 
 if ($artist) {
   $run = true;
+  $artist = urldecode($artist);
   $command .= " --artist \"$artist\"";
 }
 
 if ($neighbors != "") {
   $command .= " --nearness 5";
 } else {
+  // expand the default limit if nearness is zero.
+  // it's less expensive when not searching for neighbors.
   $command .= " --nearness 0";
+  $command .= " --limit 50";
 }
 
 if ($original != "") {
