@@ -82,19 +82,40 @@ def songs_around(play, original, nearness):
   rows = set(tuple(rows))
   return rows
 
+def gather_neighbors(plays, limit):
+  neighbors = []
+  timestamps = plays_to_timestamps(plays)
+  for timestamp in timestamps:
+    if len(neighbors) < limit:
+      near = songs_around(timestamp, args.original, args.nearness)
+      for song in near:
+        neighbors.append(song)
+
+  return neighbors
+
+def print_results(results):
+  for song in results:
+    if args.comments and song[3] != "null":
+      print song[0][:-3], song[1], '- "'+song[2]+'"', song[3]
+    else:
+      print song[0][:-3], song[1], '- "'+song[2]+'"'
+
+def allow_quotes(arg):
+  arg = arg.replace("\\'", "'")
+  arg = arg.replace("\\\"", "\"")
+  return arg
+
 args = parser.parse_args()
 db = sqlite3.connect(args.db)
 db = db.cursor()
 
 song = args.song
 if (song):
-  song = song.replace("\\'", "'")
-  song = song.replace("\\\"", "\"")
+  song = allow_quotes(song)
 
 artist = args.artist
 if artist:
-  artist = artist.replace("\\'", "'")
-  artist = artist.replace("\\\"", "\"")
+  artist = allow_quotes(artist)
 
 limit = args.limit
 
@@ -107,6 +128,7 @@ elif(artist):
 elif(song):
   message = 'Searching for Song: "%s"' % (song,)
   plays = get_plays_by_song(db, song, limit=limit)
+
 print message
 print "=" * len(message)
 
@@ -117,19 +139,17 @@ for play in plays:
     deduped.append(play)
 plays = deduped
 
-timestamps = plays_to_timestamps(plays)
-
 results = []
-for timestamp in timestamps:
-  if len(results) < args.limit:
-    near = songs_around(timestamp, args.original, args.nearness)
-    for song in near:
-      results.append(song)
+# skip searching for neighbor songs if nearness is zero
+if args.nearness == 0:
+  results = plays
+else:
+  results = gather_neighbors(plays, limit)
 
-for song in results:
-  if args.comments and song[3] != "null":
-    print song[0][:-3], song[1], '- "'+song[2]+'"', song[3]
-  else:
-    print song[0][:-3], song[1], '- "'+song[2]+'"'
+if len(results) == 0:
+  print "No Results."
+else:
+  print_results(results)
+  print "%d Results." % (len(results))
 
 db.close()
