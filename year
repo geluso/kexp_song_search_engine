@@ -1,0 +1,14 @@
+  year=$1
+  for file in `ls html/$year-01*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-02*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-03*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-04*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-05*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-06*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-07*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-08*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-09*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-10*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-11*`; do ./parse.py "$file" kexp.db ; done
+  for file in `ls html/$year-12*`; do ./parse.py "$file" kexp.db ; done
+
