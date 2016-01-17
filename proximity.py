@@ -85,18 +85,28 @@ def songs_around(play, original, nearness):
 args = parser.parse_args()
 db = sqlite3.connect(args.db)
 db = db.cursor()
+
 song = args.song
+if (song):
+  song = song.replace("\\'", "'")
+  song = song.replace("\\\"", "\"")
+
+artist = args.artist
+if artist:
+  artist = artist.replace("\\'", "'")
+  artist = artist.replace("\\\"", "\"")
+
 limit = args.limit
 
-if (args.artist and args.song):
-  message = 'Searching for "%s" by %s' % (args.song, args.artist)
-  plays = get_plays_by_artist_and_song(db, args.artist, args.song, limit=limit)
-elif(args.artist):
-  message = 'Searching for Artist: "%s"' % (args.artist)
-  plays = get_plays_by_artist(db, args.artist, limit=limit)
-elif(args.song):
-  message = 'Searching for Song: "%s"' % (args.song,)
-  plays = get_plays_by_song(db, args.song, limit=limit)
+if (artist and song):
+  message = 'Searching for "%s" by %s' % (song, artist)
+  plays = get_plays_by_artist_and_song(db, artist, song, limit=limit)
+elif(artist):
+  message = 'Searching for Artist: "%s"' % (artist)
+  plays = get_plays_by_artist(db, artist, limit=limit)
+elif(song):
+  message = 'Searching for Song: "%s"' % (song,)
+  plays = get_plays_by_song(db, song, limit=limit)
 print message
 print "=" * len(message)
 
