@@ -15,25 +15,25 @@ $command = "python proximity.py";
 
 if ($song) {
   $run = true;
-  $command .= " --song $song";
+  $command .= " --song \"$song\"";
 }
 
 if ($artist) {
   $run = true;
-  $command .= " --artist $artist";
+  $command .= " --artist \"$artist\"";
 }
 
-if ($neighbors) {
+if ($neighbors != "") {
   $command .= " --nearness 5";
 } else {
   $command .= " --nearness 0";
 }
 
-if ($original) {
+if ($original != "") {
   $command .= " --original $original";
 }
 
-if ($comments) {
+if ($comments != "") {
   $command .= " --comments $comments";
 }
 
