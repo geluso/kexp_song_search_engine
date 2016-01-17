@@ -3,9 +3,6 @@
 import argparse
 import sqlite3
 import re
-from subprocess import call
-from bs4 import BeautifulSoup
-from collections import namedtuple
 
 from datetime import datetime
 from datetime import timedelta
@@ -14,9 +11,10 @@ parser = argparse.ArgumentParser(description="Looks up songs played before and a
 parser.add_argument("--db", type=str, default="kexp.db", help="the location of the sqlite database")
 parser.add_argument("--song", type=str, help="Song to look up.")
 parser.add_argument("--artist", type=str, help="Artist to look up.")
-parser.add_argument("--original", type=bool, default=False, help="If true then original song will show up in search results. If False then only other songs will be shown.")
+parser.add_argument("--original", type=bool, default=True, help="If true then original song will show up in search results. If False then only other songs will be shown.")
 parser.add_argument("--nearness", type=int, default=6, help="Proximity of other songs to be included in search results measured by number of minutes before and after target song is played.")
 parser.add_argument("--comments", type=bool, default=False, help="Show DJ comments?")
+parser.add_argument("--limit", type=int, default=20, help="Max number of results to return")
 
 def time_to_datetime(timestamp):
   # obtain the date from the filename
@@ -42,21 +40,21 @@ def try_execute(db, sql, args):
   except sqlite3.IntegrityError:
     pass
 
-def get_plays_by_artist(db, artist):
-  sql = 'SELECT * FROM plays WHERE artist LIKE ? ORDER BY date ASC;'
-  db.execute(sql, ["%"+artist+"%"])
+def get_plays_by_artist(db, artist, limit=10):
+  sql = 'SELECT * FROM plays WHERE artist LIKE ? ORDER BY date DESC LIMIT ?;'
+  db.execute(sql, ["%"+artist+"%", limit])
   rows = db.fetchall()
   return rows
 
-def get_plays_by_song(db, song):
-  sql = 'SELECT * FROM plays WHERE song LIKE ? ORDER BY date ASC;'
-  db.execute(sql, ["%"+song+"%"])
+def get_plays_by_song(db, song, limit=10):
+  sql = 'SELECT * FROM plays WHERE song LIKE ? ORDER BY date DESC LIMIT ?;'
+  db.execute(sql, ["%"+song+"%", limit])
   rows = db.fetchall()
   return rows
 
-def get_plays_by_artist_and_song(db, artist, song):
-  sql = 'SELECT * FROM plays WHERE artist LIKE ? AND song LIKE ? ORDER BY date ASC;'
-  db.execute(sql, ["%" + artist + "%", "%"+song+"%"])
+def get_plays_by_artist_and_song(db, artist, song, limit=10):
+  sql = 'SELECT * FROM plays WHERE artist LIKE ? AND song LIKE ? ORDER BY date DESC LIMIT ?;'
+  db.execute(sql, ["%" + artist + "%", "%"+song+"%", limit])
   rows = db.fetchall()
   return rows
 
@@ -74,10 +72,10 @@ def songs_around(play, original, nearness):
 
   # prevent original plays from being included by default
   if original:
-    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? ORDER BY date ASC;'
+    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? ORDER BY date DESC;'
     db.execute(sql, (before, after))
   else:
-    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? AND date != ? ORDER BY date ASC;'
+    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? AND date != ? ORDER BY date DESC;'
     db.execute(sql, (before, after, play))
 
   rows = db.fetchall()
@@ -88,16 +86,17 @@ args = parser.parse_args()
 db = sqlite3.connect(args.db)
 db = db.cursor()
 song = args.song
+limit = args.limit
 
 if (args.artist and args.song):
   message = 'Searching for "%s" by %s' % (args.song, args.artist)
-  plays = get_plays_by_artist_and_song(db, args.artist, args.song)
+  plays = get_plays_by_artist_and_song(db, args.artist, args.song, limit=limit)
 elif(args.artist):
   message = 'Searching for Artist: "%s"' % (args.artist)
-  plays = get_plays_by_artist(db, args.artist)
+  plays = get_plays_by_artist(db, args.artist, limit=limit)
 elif(args.song):
   message = 'Searching for Song: "%s"' % (args.song,)
-  plays = get_plays_by_song(db, args.song)
+  plays = get_plays_by_song(db, args.song, limit=limit)
 print message
 print "=" * len(message)
 
@@ -110,12 +109,17 @@ plays = deduped
 
 timestamps = plays_to_timestamps(plays)
 
+results = []
 for timestamp in timestamps:
-  near = songs_around(timestamp, args.original, args.nearness)
-  for song in near:
-    if args.comments and song[3] != "null":
-      print song[0][:-3], song[1], '- "'+song[2]+'"', song[3]
-    else:
-      print song[0][:-3], song[1], '- "'+song[2]+'"'
+  if len(results) < args.limit:
+    near = songs_around(timestamp, args.original, args.nearness)
+    for song in near:
+      results.append(song)
+
+for song in results:
+  if args.comments and song[3] != "null":
+    print song[0][:-3], song[1], '- "'+song[2]+'"', song[3]
+  else:
+    print song[0][:-3], song[1], '- "'+song[2]+'"'
 
 db.close()
