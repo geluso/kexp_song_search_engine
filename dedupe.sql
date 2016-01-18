@@ -1,0 +1,1 @@
+DELETE FROM plays WHERE RowId NOT IN (SELECT MIN(RowID) FROM plays GROUP BY date);
