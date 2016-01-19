@@ -76,11 +76,11 @@ $command .= " --limit 1000";
       <form action="index.php" method="GET">
         <label>
           Artist:
-          <input name="artist" value="<?=$artist?>"></input>
+          <input name="artist" value="<?=htmlspecialchars($artist)?>"></input>
         </label>
         <label>
           Song:
-          <input name="song" value="<?=$song?>"></input>
+          <input name="song" value="<?=htmlspecialchars($song)?>"></input>
         </label>
         <label>
           <?php
