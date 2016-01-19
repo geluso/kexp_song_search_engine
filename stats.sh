@@ -1,0 +1,6 @@
+echo "artists:"
+sqlite3 kexp.db "SELECT count(*) FROM artists;"
+echo "songs:"
+sqlite3 kexp.db "SELECT count(*) FROM songs;"
+echo "plays:"
+sqlite3 kexp.db "SELECT count(*) FROM plays;"
