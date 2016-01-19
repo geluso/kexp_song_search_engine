@@ -1,6 +1,9 @@
 # KSSE: KEXP Song Search Engine
 A website dedicated to searching through the entire history of KEXP radio.
 
+See the project live at:
+http://5tephen.com/ksse/index.php
+
 This project scrapes the online KEXP hourly playlist and builds a database recording
 what songs are played at what time. The project consists of a scraper, parser, and database tool.
 Each component of the project is configured to behave like a command line tool and act independantly.
@@ -38,5 +41,3 @@ wants to see when one song has been played --original should be true. If a user 
 new songs played near a song they know --original should be false. If a user wasnts to see how songs are
 played in relation to the song their searching for --original should be true.
 
-See the project live at:
-http://5tephen.com/ksse/index.php
