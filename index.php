@@ -118,6 +118,10 @@ $command .= " --limit 1000";
     <div class="item container-fluid">
       <?php
         if ($run) {
+          $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+          file_put_contents("logs/log_url.txt", "$url\n", FILE_APPEND | LOCK_EX);
+          file_put_contents("logs/log_python.txt", "$command\n", FILE_APPEND | LOCK_EX);
+
           include("results.php");
         } else {
           include("instructions.html");
