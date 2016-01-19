@@ -1,3 +1,7 @@
-#results {
+.title {
+  font-size: 24pt;
+}
+
+.results {
   word-wrap: inherit;
 }

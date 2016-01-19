@@ -19,24 +19,24 @@ putenv('LC_ALL='.$locale);
     <link rel="stylesheet" href="http://5tephen.com/css/bootstrap-overrides.css" />
     <link rel="stylesheet" href="style.css" />
 <?php
-$song = $_GET["song"];
 $artist = $_GET["artist"];
+$song = $_GET["song"];
 $neighbors = $_GET["neighbors"];
 $original = $_GET["original"];
 $comments = $_GET["comments"];
 
 $command = "python proximity.py";
 
-if ($song) {
-  $run = true;
-  $song = urldecode($song);
-  $command .= " --song \"$song\"";
-}
-
 if ($artist) {
   $run = true;
   $artist = urldecode($artist);
   $command .= " --artist \"$artist\"";
+}
+
+if ($song) {
+  $run = true;
+  $song = urldecode($song);
+  $command .= " --song \"$song\"";
 }
 
 if ($neighbors != "") {
@@ -61,16 +61,20 @@ $command .= " --limit 1000";
   </head>
   <body>
     <div class="item text-center container-fluid">
-      <h1>KSSE: KEXP Song Search Engine</h1>
+      <h1 class="title">
+        <a href="http://5tephen.com/ksse/">
+          KSSE: KEXP Song Search Engine
+        </a>
+      </h1>
 
       <form action="index.php" method="GET">
         <label>
-          Song:
-          <input name="song" value="<?=$song?>"></input>
-        </label>
-        <label>
           Artist:
           <input name="artist" value="<?=$artist?>"></input>
+        </label>
+        <label>
+          Song:
+          <input name="song" value="<?=$song?>"></input>
         </label>
         <label>
           <?php
@@ -106,15 +110,13 @@ $command .= " --limit 1000";
 
 
     <div class="item container-fluid">
-      <pre id="results">
-<?php
-if ($run) {
-  $command = escapeshellcmd($command);
-  $output = shell_exec($command);
-  echo $output;
-}
-?>
-      </pre>
+      <?php
+        if ($run) {
+          include("results.php");
+        } else {
+          include("instructions.html");
+        }
+      ?>
     </div>
   </body>
 </html>
