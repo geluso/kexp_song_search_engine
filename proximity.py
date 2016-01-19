@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 import argparse
 import sqlite3
@@ -129,6 +130,12 @@ if (song):
 artist = args.artist
 if artist:
   artist = allow_quotes(artist)
+  # replace popular proper-english spellings
+  # with janky-ass internationalizations
+  if artist.lower() == "sigur ros":
+    artist = "Sigur Rós"
+  elif artist.lower() == "bjork":
+    artist = "Björk"
 
 limit = args.limit
 
