@@ -8,6 +8,12 @@ putenv('LC_ALL='.$locale);
 <html>
   <head>
     <title>KSSE: KEXP Song Search Engine</title>
+
+    <meta property="og:site_name" content="KSSE: KEXP Song Search Engine"/>
+    <meta property="og:title" content="KSSE: KEXP Song Search Engine">
+    <meta property="og:image" content="sitepreview.png">
+    <meta property="og:description" content="Discover new music by seeing what else KEXP plays near when they play your favorite songs and artists.">
+
     <link rel="icon" href="http://5tephen.com/img/cheeseplane.gif" type="image/gif"/>
     <link rel="me" href="https://twitter.com/geluso" />
     <link rel="me" href="https://github.com/geluso" />
