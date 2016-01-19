@@ -62,15 +62,15 @@ if ($comments != "") {
     <form action="index.php" method="GET">
       <label>
         Song:
-        <input name="song" value="<?=$song?>" size="12"></input>
+        <input name="song" value="<?=$song?>"></input>
       </label>
       <label>
         Artist:
-        <input name="artist" value="<?=$artist?>" size="12"></input>
+        <input name="artist" value="<?=$artist?>"></input>
       </label>
       <label>
         <?php
-          if ($comments) {
+          if ($neighbors) {
         ?>
             <input name="neighbors" type="checkbox" value="True" checked></input>
         <?php
@@ -98,6 +98,7 @@ if ($comments != "") {
       </label>
       <button type="submit">search</button>
     </form>
+    </div>
 
 <?php
 if ($run) {
