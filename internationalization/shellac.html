@@ -1,0 +1,278 @@
+<html>
+  <head>
+    <title>KSSE: KEXP Song Search Engine</title>
+    <link rel="icon" href="http://5tephen.com/img/cheeseplane.gif" type="image/gif"/>
+    <link rel="me" href="https://twitter.com/geluso" />
+    <link rel="me" href="https://github.com/geluso" />
+    <link rel="me" href="https://facebook.com/5TEPHENoCOM" />
+
+    <!-- Bootstrap -->
+    <link href="http://5tephen.com/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://5tephen.com/css/style.css" />
+    <link rel="stylesheet" href="http://5tephen.com/css/bootstrap-overrides.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="item text-center">
+        <h1>KSSE: KEXP Song Search Engine</h1>
+
+
+    <div class="row">
+    <form action="index.php" method="GET">
+      <label>
+        Song:
+        <input name="song" value=""></input>
+      </label>
+      <label>
+        Artist:
+        <input name="artist" value="Shellac"></input>
+      </label>
+      <label>
+                    <input name="neighbors" type="checkbox" value="True" checked></input>
+                neighboring songs
+      </label>
+      <label>
+                    <input name="comments" type="checkbox" value="True"></input>
+                DJ comments
+      </label>
+      <button type="submit">search</button>
+    </form>
+    </div>
+
+      </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="item">
+<pre id="results">
+python proximity.py --artist "Shellac" --nearness 5 --limit 1000
+Searching for Artist: "Shellac"
+===============================
+2015-12-17 12:40 Shellac - "Compliant"
+2015-12-17 12:37 Beach Slang - "Dirty Lights"
+2015-12-17 12:43 The Clash - "London Calling"
+2014-12-28 03:22 Sunny Day Real Estate - "47"
+2014-12-28 03:31 Helms Alee - "New West"
+2014-12-28 03:27 Shellac - "The Peoples Microphone"
+2014-11-17 04:36 FF  - "It's Alright"
+2014-11-17 04:32 Shellac - "Compliant"
+2014-11-15 14:39 Black Sabbath - "Paranoid"
+2014-11-15 14:42 Shellac - "Surveyor"
+2014-11-06 04:28 Shellac - "The Peoples Microphone"
+2014-11-06 04:31 Nirvana - "Dive"
+2014-11-06 04:24 Ex Hex - "Don't Wanna Lose"
+2014-11-02 16:09 Frightened Rabbit - "Wedding Gloves"
+2014-11-02 16:18 Gospel Claws - "I Can, I Will"
+2014-11-02 16:14 Shellac - "Surveyor"
+2014-10-26 02:22 Shellac - "Riding Bikes"
+2014-10-26 02:19 These Arms Are Snakes - "Riding the Grape Dragon"
+2014-10-19 02:43 Shellac - "You Came In Me"
+2014-10-19 02:45 Deltron 3030 - "Madness"
+2014-10-18 03:52 Love and Rockets - "No Big Deal"
+2014-10-18 03:48 Shellac - "Compliant"
+2014-10-18 03:43 Broken Social Scene - "Fire Eye'd Boy"
+2014-10-13 12:29 Ty Segall - "Who's Producing You?"
+2014-10-13 12:34 Neil Young - "Harvest"
+2014-10-13 12:31 Shellac - "You Came In Me"
+2014-10-12 02:46 Nine Inch Nails - "Happiness In Slavery"
+2014-10-12 02:43 Shellac - "All The Surveyors"
+2014-10-05 02:30 Shellac - "Riding Bikes"
+2014-09-27 02:02 Shellac - "Dude Incredible"
+2014-09-22 04:31 Shellac - "Riding Bikes"
+2014-09-22 04:26 The Casket Girls - "Same Side"
+2014-09-21 03:44 Nirvana - "On a Plain"
+2014-09-21 03:53 Watter - "Lord I Want More"
+2014-09-21 03:48 Shellac - "Dude Incredible"
+2014-07-22 09:47 Helmet - "Unsung"
+2014-07-22 09:52 Shellac - "Paco"
+2014-07-22 09:33 Shellac - "Song Against Itself"
+2014-07-22 09:37 mclusky - "To Hell With Good Intentions"
+2014-06-16 05:06 AC/DC - "Problem Child"
+2014-06-16 05:03 Shellac - "Ghosts"
+2013-10-10 02:36 Friction  - "I Can Tell"
+2013-10-10 02:41 Shellac - "The End of Radio"
+2013-09-16 17:10 Real Estate - "It's Real"
+2013-09-16 17:07 Shellac - "Squirrel Song"
+2013-09-16 17:12 Rodriguez - "Sugar Man"
+2013-07-22 03:56 Shellac - "The End of Radio"
+2013-05-28 11:31 Kurt Vile - "Pure Pain"
+2013-05-28 11:36 Shellac - "Crow"
+2013-02-09 22:35 Christdriver - "Clean Eyes"
+2013-02-09 22:43 3 Toed Sloth - "Didn't Know I Loved You..."
+2013-02-09 22:39 Shellac - "Jailbreak"
+2012-11-09 23:51 METZ - "Get Off"
+2012-11-09 23:54 Shellac - "Steady as She Goes"
+2012-11-09 23:57 El Perro Del Mar - "I Carry The Fire"
+2011-12-31 23:38 Fugazi - "Nice New Outfit"
+2011-12-31 23:34 Shellac - "The Admiral"
+2011-10-24 14:39 Shellac - "My Black Ass"
+2011-10-24 14:37 Constant Lovers - "Move"
+2011-10-24 14:42 JC Brooks & The Uptown Sound - "I Am Trying To Break Your Heart "
+2011-10-11 17:47 Poster Children - "Voight"
+2011-10-11 17:50 Shellac - "The Admiral"
+2011-10-11 17:53 Helium - "Pat's Trick"
+2011-07-02 22:26 Lights Out! - "Destroy - Create"
+2011-07-02 22:28 Cloak & Dagger - "Daggers Daggers"
+2011-07-02 22:30 Leatherface - "Our Father"
+2011-07-02 22:20 Concours d'Elegance - "Sara"
+2011-07-02 22:25 Shellac - "Steady as She Goes"
+2011-07-02 22:24 Concours d'Elegance - "The Night"
+2011-06-26 14:55 Queens of the Stone Age - "Regular John"
+2011-06-26 14:52 Shellac - "My Black Ass"
+2011-06-26 14:48 The Cave Singers - "Black Leaf"
+2011-03-24 23:11 Slint - "Nosferatu Man"
+2011-03-24 23:08 Shellac - "The Admiral"
+2010-10-04 11:07 Archers of Loaf - "Wrong"
+2010-10-04 11:10 Shellac - "Song Against Itself"
+2010-09-23 11:21 Shellac - "Steady as She Goes"
+2010-09-23 11:25 The Thermals - "Never Listen to Me"
+2010-08-30 04:08 Pink Mountaintops - ""
+2010-08-30 04:16 The Intelligence - ""
+2010-08-30 04:12 Shellac - "Steady as She Goes"
+2010-07-02 17:21 Queens of the Stone Age - "You Think I Ain't Worth a Dollar, but I Feel Like a Millionaire"
+2010-07-02 17:16 Shellac - "Steady as She Goes"
+2010-02-24 07:06 Shellac - "Song Against Itself"
+2010-02-24 07:10 Talking Heads - "And She Was"
+2009-09-03 01:18 Shellac - "Prayer to God"
+2009-09-03 01:15 JEFF the Brotherhood - ""
+2009-06-25 13:41 Shellac - "Steady as She Goes"
+2009-06-25 13:39 Broken Social Scene - ""
+2009-06-25 13:45 The Raconteurs - "Steady, as She Goes"
+2009-05-19 11:12 The Dandy Warhols - "Horse Pills"
+2009-05-19 11:15 Shellac - "New Number Order"
+2009-05-19 11:19 Jaguar Love - "Highways of Gold"
+2009-05-05 05:45 The Thermals - "I Let It Go"
+2009-05-05 05:51 Karate - "Caffeine or Me?"
+2009-05-05 05:49 Shellac - "The Admiral"
+2009-04-23 10:57 The Intelligence - "Debt & ESP"
+2009-04-23 11:04 Agent Orange - ""
+2009-04-23 11:00 Shellac - "Steady as She Goes"
+2009-04-09 03:54 Shellac - "Steady as She Goes"
+2009-04-09 03:58 The Damned - "Love Song"
+2009-01-27 16:30 The King Khan & BBQ Show - "Treat Me Like a Dog"
+2009-01-27 16:35 Shellac - "New Number Order"
+2009-01-27 16:38 Threatmantics - "Big Man"
+2009-01-25 04:12 Helms Alee - "A Weirding Away"
+2009-01-25 04:16 Shellac - "Dog and Pony Show"
+2009-01-25 04:20 Sausage - "Prelude to Fear"
+2008-11-15 04:06 Anthrax - "Time"
+2008-11-15 04:01 Shellac - "A Minute"
+2008-11-15 03:58 Archers of Loaf - "I.N.S."
+2008-09-02 23:10 Shellac - "Paco"
+2008-05-19 09:20 These New Puritans - "Navigate-Colours"
+2008-05-19 09:24 Shellac - "Song Against Itself"
+2008-05-19 09:28 Triclops! - ""
+2008-04-19 23:00 Shellac - "Steady as She Goes"
+2008-02-10 02:56 The Replacements - "Alex Chilton"
+2008-02-10 02:59 Shellac - "Watch Song"
+2007-12-16 15:22 Shellac - "The End of Radio"
+2007-12-14 11:03 Tokyo Police Club - "Be Good (RAC remix)"
+2007-12-14 11:01 Shellac - "Kittypants"
+2007-12-14 11:06 The Blakes - "Commit"
+2007-12-14 10:57 Babyshambles - "Deft Left Hand"
+2007-10-13 22:57 Shellac - ""
+2007-10-13 22:54 Karp - "Handsome Traveler"
+2007-10-13 23:02 The Intelligence - "Our Solar System"
+2007-10-13 22:52 Doomriders - "Black Thunder"
+2007-10-13 23:01 Michael Yonkers with The Blind Shake - "Why Don't"
+2007-09-15 23:51 Shellac - "Wingwalker"
+2007-09-15 23:56 Portishead - "Mysterons"
+2007-09-15 23:46 Head of David - "I'll Fall at Your Feet"
+2007-09-03 10:29 Deceptikon - "Empty Buildings in an Empty Town"
+2007-09-03 10:38 Built to Spill - "Goin' Against Your Mind"
+2007-09-03 10:34 Shellac - "Steady as She Goes"
+2007-08-31 15:09 Shellac - "New Number Order"
+2007-08-31 15:13 Kings of Leon - "Black Thumbnail"
+2007-08-31 15:10 The Girls - ""
+2007-08-13 13:33 The Drop - ""
+2007-08-13 13:37 Shellac - "Kittypants"
+2007-08-13 13:41 The Little Ones - ""
+2007-08-13 13:39 Patience Please - "Looks Familiar"
+2007-08-10 09:08 The Long Winters - ""
+2007-08-10 09:16 The National - "Mistaken for Strangers"
+2007-08-10 09:12 Shellac - "Be Prepared"
+2007-08-10 09:11 Unnatural Helpers - ""
+2007-08-10 03:33 Stereo Total - "Plastic"
+2007-08-10 03:24 The Airborne Toxic Event - ""
+2007-08-10 03:27 The Earaches - ""
+2007-08-10 03:29 Shellac - "Be Prepared"
+2007-08-09 00:46 Hot Snakes - "I Hate the Kids"
+2007-08-09 00:43 Shellac - "Steady as She Goes"
+2007-08-09 00:39 Blur - "She's So High"
+2007-08-07 01:33 Stars - "Life Effect"
+2007-08-07 01:37 Shellac - "The End of Radio"
+2007-08-04 23:28 Shellac - "Steady as She Goes"
+2007-08-04 23:32 Butthole Surfers - "The Shah Sleeps in Lee Harvey's Grave"
+2007-08-03 01:45 Helmet - "I Know"
+2007-08-03 01:37 The Jam - ""
+2007-08-03 01:41 Shellac - "Steady as She Goes"
+2007-08-01 04:55 Shellac - "The End of Radio"
+2007-08-01 04:51 TV on the Radio - ""
+2007-07-31 14:33 Silversun Pickups - "Kissing Families"
+2007-07-31 14:38 Shellac - "Steady as She Goes"
+2007-07-30 04:53 Shellac - "Elephant"
+2007-07-30 04:49 Skin Yard - "River Throat"
+2007-07-30 04:57 The Stooges - "Down on the Street"
+2007-07-29 02:14 Pailhead - ""
+2007-07-29 02:19 Shellac - "Elephant"
+2007-07-26 04:43 Ted Leo and the Pharmacists - "La Costa Brava"
+2007-07-26 04:38 Shellac - "Boycott"
+2007-07-26 04:33 Naked Raygun - "Mr. Gridlock"
+2007-07-26 04:40 Dinosaur Jr. - "Kracked"
+2007-07-25 03:24 Shellac - "The End of Radio"
+2007-07-25 03:21 Pissed Jeans - ""
+2007-07-24 02:37 Black Rebel Motorcycle Club - "Stop"
+2007-07-24 02:33 Shellac - "Steady as She Goes"
+2007-07-24 02:30 Pixies - "Where Is My Mind?"
+2007-07-23 03:59 Fugazi - "Waiting Room"
+2007-07-23 03:57 Shellac - "Spoke"
+2007-07-23 03:53 The Icicle Works - "Whisper to a Scream (Birds Fly)"
+2007-07-22 04:13 Shellac - "Steady as She Goes"
+2007-07-22 04:17 mclusky - "To Hell With Good Intentions"
+2007-07-20 09:15 Spoon - "You Got Yr. Cherry Bomb"
+2007-07-20 09:07 New York Dolls - "Trash"
+2007-07-20 09:10 Shellac - "Boycott"
+2007-07-18 21:39 Shellac - "Steady as She Goes"
+2007-07-18 21:43 Visqueen - "Vaxxine"
+2007-07-18 21:34 Sharon Jones and the Dap-Kings - "How Long Do I Have to Wait for You?"
+2007-07-17 03:49 Interpol - "No I in Threesome"
+2007-07-17 03:44 Shellac - "Steady as She Goes"
+2007-07-17 03:40 Dizzee Rascal - "Sirens"
+2007-07-15 16:16 Shellac - "Boycott"
+2007-07-15 16:18 Yeah Yeah Yeahs   - ""
+2007-07-15 00:20 Shellac - "The End of Radio"
+2007-07-15 00:23 Lou Reed - "Walk on the Wild Side"
+2007-07-13 01:34 Welcome - "All Set"
+2007-07-13 01:42 Mission of Burma - ""
+2007-07-13 01:38 Shellac - "Steady as She Goes"
+2007-07-11 01:25 Gossip - ""
+2007-07-11 01:18 Stereolab - "Au Grand Jour'"
+2007-07-11 01:26 The Jim Carroll Band - "People Who Died"
+2007-07-11 01:22 Shellac - "Boycott"
+2007-07-09 17:28 Treepeople - "Clouds and Faces"
+2007-07-09 17:24 Shellac - "Steady as She Goes"
+2007-07-09 05:04 Man or Astro-man? - ""
+2007-07-09 05:07 Shellac - "Spoke"
+2007-07-08 05:21 Turbo Fruits - "Murder"
+2007-07-08 05:19 Shellac - "Spoke"
+2007-07-08 05:23 The Horrors - "Thunderclaps"
+2007-07-06 17:08 Shellac - "Steady as She Goes"
+2007-07-06 17:12 Hot Hot Heat - "Bandages"
+2007-07-05 09:59 The North Sea - "Eternal Birds"
+2007-07-05 09:58 The Intelligence - "Lifepreserver"
+2007-07-05 09:54 Shellac - "Be Prepared"
+2007-07-04 22:42 Robbers on High Street - "The Fatalist"
+2007-07-04 22:47 Shellac - "Boycott"
+2007-07-04 22:49 The Maccabees - "X-Ray"
+2007-07-04 22:52 Sebadoh - "Beauty of the Ride"
+2007-07-03 22:50 Shellac - "Elephant"
+2007-07-03 17:09 Yeah Yeah Yeahs   - "Rockers to Swallow"
+2007-07-03 17:12 Shellac - "Steady as She Goes"
+2007-07-03 02:23 Sleater-Kinney - "Wilderness"
+2007-07-03 02:15 </pre>
+      </div>
+    </div>
+  </body>
+</html>
