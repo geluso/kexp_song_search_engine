@@ -3,3 +3,4 @@ html/
 kexp.db
 out.txt
 *.pyc
+kexp_backup.db
