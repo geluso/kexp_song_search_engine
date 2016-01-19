@@ -1,6 +1,5 @@
 first_out.txt
 html/
-kexp.db
+*.db
 out.txt
 *.pyc
-kexp_backup.db
