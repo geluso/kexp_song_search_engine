@@ -14,7 +14,7 @@ parser.add_argument("--artist", type=str, help="Artist to look up.")
 parser.add_argument("--original", type=bool, default=True, help="If true then original song will show up in search results. If False then only other songs will be shown.")
 parser.add_argument("--nearness", type=int, default=6, help="Proximity of other songs to be included in search results measured by number of minutes before and after target song is played.")
 parser.add_argument("--comments", type=bool, default=False, help="Show DJ comments?")
-parser.add_argument("--limit", type=int, default=20, help="Max number of results to return")
+parser.add_argument("--limit", type=int, default=None, help="Max number of results to return")
 
 def time_to_datetime(timestamp):
   # obtain the date from the filename
@@ -40,21 +40,33 @@ def try_execute(db, sql, args):
   except sqlite3.IntegrityError:
     pass
 
-def get_plays_by_artist(db, artist, limit=10):
-  sql = 'SELECT * FROM plays WHERE artist LIKE ? ORDER BY date DESC LIMIT ?;'
-  db.execute(sql, ["%"+artist+"%", limit])
+def get_plays_by_artist(db, artist, limit):
+  if (limit):
+    sql = 'SELECT * FROM plays WHERE artist LIKE ? ORDER BY date DESC LIMIT ?;'
+    db.execute(sql, ["%"+artist+"%", limit])
+  else:
+    sql = 'SELECT * FROM plays WHERE artist LIKE ? ORDER BY date DESC;'
+    db.execute(sql, ["%"+artist+"%"])
   rows = db.fetchall()
   return rows
 
-def get_plays_by_song(db, song, limit=10):
-  sql = 'SELECT * FROM plays WHERE song LIKE ? ORDER BY date DESC LIMIT ?;'
-  db.execute(sql, ["%"+song+"%", limit])
+def get_plays_by_song(db, song, limit):
+  if limit:
+    sql = 'SELECT * FROM plays WHERE song LIKE ? ORDER BY date DESC LIMIT ?;'
+    db.execute(sql, ["%"+song+"%", limit])
+  else:
+    sql = 'SELECT * FROM plays WHERE song LIKE ? ORDER BY date DESC;'
+    db.execute(sql, ["%"+song+"%"])
   rows = db.fetchall()
   return rows
 
-def get_plays_by_artist_and_song(db, artist, song, limit=10):
-  sql = 'SELECT * FROM plays WHERE artist LIKE ? AND song LIKE ? ORDER BY date DESC LIMIT ?;'
-  db.execute(sql, ["%" + artist + "%", "%"+song+"%", limit])
+def get_plays_by_artist_and_song(db, artist, song, limit):
+  if limit:
+    sql = 'SELECT * FROM plays WHERE artist LIKE ? AND song LIKE ? ORDER BY date DESC LIMIT ?;'
+    db.execute(sql, ["%" + artist + "%", "%"+song+"%", limit])
+  else:
+    sql = 'SELECT * FROM plays WHERE artist LIKE ? AND song LIKE ? ORDER BY date DESC;'
+    db.execute(sql, ["%" + artist + "%", "%"+song+"%"])
   rows = db.fetchall()
   return rows
 
@@ -86,7 +98,7 @@ def gather_neighbors(plays, limit):
   neighbors = []
   timestamps = plays_to_timestamps(plays)
   for timestamp in timestamps:
-    if len(neighbors) < limit:
+    if limit is None or len(neighbors) < limit:
       near = songs_around(timestamp, args.original, args.nearness)
       for song in near:
         neighbors.append(song)
@@ -107,6 +119,7 @@ def allow_quotes(arg):
 
 args = parser.parse_args()
 db = sqlite3.connect(args.db)
+db.text_factory = str
 db = db.cursor()
 
 song = args.song
