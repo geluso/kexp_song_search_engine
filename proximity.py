@@ -132,13 +132,6 @@ elif(song):
 print message
 print "=" * len(message)
 
-# dedupe the plays
-deduped = []
-for play in plays:
-  if play not in deduped:
-    deduped.append(play)
-plays = deduped
-
 results = []
 # skip searching for neighbor songs if nearness is zero
 if args.nearness == 0:
