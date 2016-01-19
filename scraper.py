@@ -6,10 +6,13 @@ from subprocess import call
  
 parser = argparse.ArgumentParser(description="Downloads an entire year of KEXP playlist data, one hour at a time.")
 parser.add_argument("year", type=int, help="The year to scrape.")
+parser.add_argument("--outdir", type=str, help="The directory to place the scrape in.")
 
 URL = "http://kexp.org/playlist/"
 date_format = "%d/%d/%d/%s"
 file_format = "%d-%02d-%02d-%02d.html"
+
+args = parser.parse_args()
 
 def scrape_year(year):
   for month in range(1, 13):
@@ -33,10 +36,12 @@ def scrape(year, month, day, hour, pm):
 
   filename = file_format % (year, month, day, hour)
 
-  cmd = "curl %s > %s" % (url, filename)
+  if args.outdir:
+    cmd = "curl %s > %s/%s" % (url, args.outdir, filename)
+  else:
+    cmd = "curl %s > %s" % (url, filename)
   print cmd
   call(cmd, shell=True)
 
-args = parser.parse_args()
 print "scraping", args.year
 scrape_year(args.year)
