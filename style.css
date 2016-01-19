@@ -5,3 +5,7 @@
 .results {
   word-wrap: inherit;
 }
+
+.source {
+  text-align: right;
+}
