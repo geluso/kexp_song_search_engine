@@ -1,3 +1,10 @@
+<?php 
+// Set up lots of localization to handle Unicode
+header('Content-type: text/html; charset=UTF-8');
+$locale = 'en_US.UTF-8';
+setlocale(LC_ALL, $locale);
+putenv('LC_ALL='.$locale);
+?>
 <html>
   <head>
     <title>KSSE: KEXP Song Search Engine</title>
@@ -11,14 +18,7 @@
     <link rel="stylesheet" href="http://5tephen.com/css/style.css" />
     <link rel="stylesheet" href="http://5tephen.com/css/bootstrap-overrides.css" />
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="item text-center">
-        <h1>KSSE: KEXP Song Search Engine</h1>
-
-<?php 
-
+<?php
 $song = $_GET["song"];
 $artist = $_GET["artist"];
 $neighbors = $_GET["neighbors"];
@@ -45,7 +45,6 @@ if ($neighbors != "") {
   // expand the default limit if nearness is zero.
   // it's less expensive when not searching for neighbors.
   $command .= " --nearness 0";
-  $command .= " --limit 50";
 }
 
 if ($original != "") {
@@ -55,69 +54,67 @@ if ($original != "") {
 if ($comments != "") {
   $command .= " --comments $comments";
 }
-
+   
+$command .= " --limit 1000";
 
 ?>
-    <div class="row">
-    <form action="index.php" method="GET">
-      <label>
-        Song:
-        <input name="song" value="<?=$song?>"></input>
-      </label>
-      <label>
-        Artist:
-        <input name="artist" value="<?=$artist?>"></input>
-      </label>
-      <label>
-        <?php
-          if ($neighbors) {
-        ?>
-            <input name="neighbors" type="checkbox" value="True" checked></input>
-        <?php
-          } else {
-        ?>
-            <input name="neighbors" type="checkbox" value="True"></input>
-        <?php
-          }
-        ?>
-        neighboring songs
-      </label>
-      <label>
-        <?php
-          if ($comments) {
-        ?>
-            <input name="comments" type="checkbox" value="True" checked></input>
-        <?php
-          } else {
-        ?>
-            <input name="comments" type="checkbox" value="True"></input>
-        <?php
-          }
-        ?>
-        DJ comments
-      </label>
-      <button type="submit">search</button>
-    </form>
+  </head>
+  <body>
+    <div class="item text-center container-fluid">
+      <h1>KSSE: KEXP Song Search Engine</h1>
+
+      <form action="index.php" method="GET">
+        <label>
+          Song:
+          <input name="song" value="<?=$song?>"></input>
+        </label>
+        <label>
+          Artist:
+          <input name="artist" value="<?=$artist?>"></input>
+        </label>
+        <label>
+          <?php
+            if ($neighbors) {
+          ?>
+              <input name="neighbors" type="checkbox" value="True" checked></input>
+          <?php
+            } else {
+          ?>
+              <input name="neighbors" type="checkbox" value="True"></input>
+          <?php
+            }
+          ?>
+          neighboring songs
+        </label>
+        <label>
+          <?php
+            if ($comments) {
+          ?>
+              <input name="comments" type="checkbox" value="True" checked></input>
+          <?php
+            } else {
+          ?>
+              <input name="comments" type="checkbox" value="True"></input>
+          <?php
+            }
+          ?>
+          DJ comments
+        </label>
+        <button type="submit">search</button>
+      </form>
     </div>
 
+
+    <div class="item container-fluid">
+      <pre id="results">
 <?php
 if ($run) {
   $command = escapeshellcmd($command);
   $output = shell_exec($command);
+  echo $output;
 }
 ?>
-      </div>
-    </div>
-
-
-    <div class="container-fluid">
-      <div class="item">
-<pre id="results">
-<?php
-echo $output;
-?>
-</pre>
-      </div>
+      </pre>
     </div>
   </body>
 </html>
