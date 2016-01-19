@@ -1,7 +1,21 @@
 <html>
   <head>
+    <title>KSSE: KEXP Song Search Engine</title>
+    <link rel="icon" href="http://5tephen.com/img/cheeseplane.gif" type="image/gif"/>
+    <link rel="me" href="https://twitter.com/geluso" />
+    <link rel="me" href="https://github.com/geluso" />
+    <link rel="me" href="https://facebook.com/5TEPHENoCOM" />
+
+    <!-- Bootstrap -->
+    <link href="http://5tephen.com/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://5tephen.com/css/style.css" />
+    <link rel="stylesheet" href="http://5tephen.com/css/bootstrap-overrides.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="container-fluid">
+      <div class="item text-center">
+        <h1>KSSE: KEXP Song Search Engine</h1>
 
 <?php 
 
@@ -44,14 +58,15 @@ if ($comments != "") {
 
 
 ?>
+    <div class="row">
     <form action="index.php" method="GET">
       <label>
         Song:
-        <input name="song" value="<?=$song?>"></input>
+        <input name="song" value="<?=$song?>" size="12"></input>
       </label>
       <label>
         Artist:
-        <input name="artist" value="<?=$artist?>"></input>
+        <input name="artist" value="<?=$artist?>" size="12"></input>
       </label>
       <label>
         <?php
@@ -90,12 +105,18 @@ if ($run) {
   $output = shell_exec($command);
 }
 ?>
+      </div>
+    </div>
 
-<pre>
+
+    <div class="container-fluid">
+      <div class="item">
+<pre id="results">
 <?php
-echo "$command\n";
 echo $output;
 ?>
 </pre>
+      </div>
+    </div>
   </body>
 </html>
