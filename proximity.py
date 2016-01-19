@@ -163,6 +163,7 @@ if len(results) == 0:
   print "No Results."
 else:
   print_results(results)
+  print
   print "%d Results." % (len(results))
 
 db.close()
