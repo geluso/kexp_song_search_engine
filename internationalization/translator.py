@@ -8,7 +8,7 @@ parser.add_argument("filename", type=str, help="the file to be processed.")
 
 args = parser.parse_args()
 
-english = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? "
+english = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM "
 names = open(args.filename).readlines()
 
 international_characters = ""
@@ -21,8 +21,8 @@ for name in names:
       if letter not in international_characters:
         international_characters += letter
       if not printed:
-        print name
+        print name.encode("utf-8")
         printed = True
 
-print international_characters
+print international_characters.encode("utf-8")
 print "".join(sorted(international_characters))
