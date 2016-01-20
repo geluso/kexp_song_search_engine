@@ -61,8 +61,6 @@ if ($comments != "") {
   $command .= " --comments $comments";
 }
    
-$command .= " --limit 1000";
-
 ?>
   </head>
   <body>
