@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import ast
 import sqlite3
 import re
 
 from datetime import datetime
-from datetime import timedelta
  
 parser = argparse.ArgumentParser(description="Looks up songs played before and after a given song.")
 parser.add_argument("--db", type=str, default="kexp.db", help="the location of the sqlite database")
 parser.add_argument("--song", type=str, help="Song to look up.")
 parser.add_argument("--artist", type=str, help="Artist to look up.")
-parser.add_argument("--original", type=bool, default=True, help="If true then original song will show up in search results. If False then only other songs will be shown.")
-parser.add_argument("--nearness", type=int, default=6, help="Proximity of other songs to be included in search results measured by number of minutes before and after target song is played.")
-parser.add_argument("--comments", type=bool, default=False, help="Show DJ comments?")
+parser.add_argument("--original", type=ast.literal_eval, default=True, help="If true then original song will show up in search results. If False then only other songs will be shown.")
+parser.add_argument("--neighbors", type=int, default=2, help="The number of songs before and after target song to retrieve.")
+parser.add_argument("--comments", type=ast.literal_eval, default=False, help="Show DJ comments?")
 parser.add_argument("--limit", type=int, default=None, help="Max number of results to return")
 
 def time_to_datetime(timestamp):
@@ -79,28 +79,30 @@ def plays_to_timestamps(rows):
     timestamps.append(time)
   return timestamps
 
-def songs_around(play, original, nearness):
-  before = play - timedelta(minutes=nearness)
-  after = play + timedelta(minutes=nearness)
+def songs_around(play, original, neighbors):
+  date = play[0]
 
   # prevent original plays from being included by default
+  before_sql = "SELECT * FROM plays WHERE date < ? ORDER BY date DESC LIMIT ?";
+  after_sql = "SELECT * FROM plays WHERE date > ? ORDER BY date ASC LIMIT ?";
+
+  db.execute(before_sql, [date, neighbors])
+  before = db.fetchall()
+
+  db.execute(after_sql, [date, neighbors])
+  after = db.fetchall()
+
   if original:
-    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? ORDER BY date DESC;'
-    db.execute(sql, (before, after))
-  else:
-    sql = 'SELECT * FROM plays WHERE date BETWEEN ? AND ? AND date != ? ORDER BY date DESC;'
-    db.execute(sql, (before, after, play))
+    before.append(play)
+  before.extend(after)
 
-  rows = db.fetchall()
-  rows = set(tuple(rows))
-  return rows
+  return before
 
-def gather_neighbors(plays, limit):
+def gather_neighbors(plays, limit, num_neighbors):
   neighbors = []
-  timestamps = plays_to_timestamps(plays)
-  for timestamp in timestamps:
+  for play in plays:
     if limit is None or len(neighbors) < limit:
-      near = songs_around(timestamp, args.original, args.nearness)
+      near = songs_around(play, args.original, num_neighbors)
       for song in near:
         neighbors.append(song)
 
@@ -157,11 +159,11 @@ print message
 print "=" * len(message)
 
 results = []
-# skip searching for neighbor songs if nearness is zero
-if args.nearness == 0:
+# skip searching for neighbor songs if neighbors is zero
+if args.neighbors == 0:
   results = plays
 else:
-  results = gather_neighbors(plays, limit)
+  results = gather_neighbors(plays, limit, args.neighbors)
 
 if len(results) == 0:
   print "No Results."

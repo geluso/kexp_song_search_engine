@@ -46,11 +46,11 @@ if ($song) {
 }
 
 if ($neighbors != "") {
-  $command .= " --nearness 5";
+  $command .= " --neighbors 2";
 } else {
-  // expand the default limit if nearness is zero.
+  // expand the default limit if neighbors is zero.
   // it's less expensive when not searching for neighbors.
-  $command .= " --nearness 0";
+  $command .= " --neighbors 0";
 }
 
 if ($original != "") {
