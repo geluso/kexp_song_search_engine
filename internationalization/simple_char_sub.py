@@ -12,7 +12,7 @@ parser.add_argument("filename", type=str, help="the file to be processed.")
 
 args = parser.parse_args()
 
-simple_chars = "‐µÁÂÄÅÆÉÑÓÖ×ØÚÜàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿāăćęğģİıļłńŌōőœśşšżž".decode("utf-8")
+simple_chars = "​‐ИµÁÂÄÅÆÉÑÓÖ×ØÚÜàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿāăćęğģİıļłńŌōőœśşšżž".decode("utf-8")
 replacements = {}
 
 def add_replacement(askii, foreign):
@@ -20,6 +20,7 @@ def add_replacement(askii, foreign):
   for letter in foreign:
     replacements[letter] = askii
 
+add_replacement("", "​")
 add_replacement("0", "Ø")
 add_replacement("-", "‐")
 add_replacement("a", "ÁÂÄÅàáâãäåāă")
@@ -54,7 +55,7 @@ for name in names:
   name = name.strip().decode("utf-8")
   added = False
   for letter in name:
-    if letter in simple_chars or letter == ".":
+    if letter in simple_chars or letter in ".-":
       if not added:
         ascii_name = replace_foreign_chars(name)
         ascii_name = ascii_name.lower()
