@@ -7,6 +7,7 @@ import sqlite3
 import re
 
 from datetime import datetime
+from known_names import translate_artist
  
 parser = argparse.ArgumentParser(description="Looks up songs played before and after a given song.")
 parser.add_argument("--db", type=str, default="kexp.db", help="the location of the sqlite database")
@@ -132,16 +133,10 @@ if (song):
 artist = args.artist
 if artist:
   artist = allow_quotes(artist)
+
   # replace popular proper-english spellings
   # with janky-ass internationalizations
-  if artist.lower() == "sigur ros":
-    artist = "Sigur Rós"
-  elif artist.lower() == "bjork":
-    artist = "Björk"
-  elif artist.lower() == "run dmc" or artist.lower() == "run d.m.c.":
-   artist = "Run‐D.M.C."
-  elif artist.lower() == "m ward":
-   artist = "M. Ward"
+  artist = translate_artist(artist)
 
 limit = args.limit
 
