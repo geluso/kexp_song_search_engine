@@ -136,6 +136,8 @@ if artist:
     artist = "Sigur Rós"
   elif artist.lower() == "bjork":
     artist = "Björk"
+  elif artist.lower() == "run dmc" or artist.lower() == "run d.m.c.";
+   artist = "Run‐D.M.C."
 
 limit = args.limit
 
