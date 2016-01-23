@@ -23,8 +23,6 @@ def scrape_year(year):
         scrape(year, month, day, hour, "pm")
 
 def scrape(year, month, day, hour, pm):
-  if year == 2015 and month == 1:
-    return
   time = str(hour) + pm
   timestamp = date_format % (year, month, day, time)
   url = URL + timestamp
