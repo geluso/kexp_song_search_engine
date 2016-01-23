@@ -3,12 +3,16 @@
 
 import argparse
 
+import sys
+import codecs
+sys.stdout=codecs.getwriter('utf-8')(sys.stdout)
+
 parser = argparse.ArgumentParser(description="Detect internationalizatins in words in line-separated a file")
 parser.add_argument("filename", type=str, help="the file to be processed.")
 
 args = parser.parse_args()
 
-english = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM "
+english = "|1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM "
 names = open(args.filename).readlines()
 
 international_characters = ""
@@ -21,7 +25,7 @@ for name in names:
       if letter not in international_characters:
         international_characters += letter
       if not printed:
-        print name.encode("utf-8")
+        print name
         printed = True
 
 print international_characters.encode("utf-8")
